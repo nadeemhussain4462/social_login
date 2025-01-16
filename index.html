@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Supabase</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body>
+    <script>
+      const { createClient } = supabase;
+      const projectURL = "https://quzilvguaxtlplzxdxpp.supabase.co";
+      const projectAPI =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF1emlsdmd1YXh0bHBsenhkeHBwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY0ODg1NjUsImV4cCI6MjA1MjA2NDU2NX0.dbpVnb9ritllMLEb-pdczsnxc1goSLIDuZ2zc3Vpd4Q";
+      const supabaseConfig = createClient(projectURL, projectAPI);
+      async function signUpUser(email, password) {
+        try {
+          const { data, error } = await supabaseConfig.auth.signUp({
+            email: email,
+            password: password,
+          });
+          if (error) {
+            if (error.status === 429) {
+              console.error("Rate limit exceeded. Please try again later.");
+            } else {
+              console.error("Error signing up:", error);
+            }
+          } else {
+            console.log("User signed up:", data);
+          }
+        } catch (err) {
+          console.error("Unexpected error:", err);
+        }
+      }
+      signUpUser("hoteleyenadeem@gmail.com", "Nadeem4462@");
+    </script>
+  </body>
+</html>
+
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="app.js"></script>
+
+    <script>
+        const { createClient } = supabase
+        const projectURL = "https://quzilvguaxtlplzxdxpp.supabase.co"
+        const projectAPI = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF1emlsdmd1YXh0bHBsenhkeHBwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY0ODg1NjUsImV4cCI6MjA1MjA2NDU2NX0.dbpVnb9ritllMLEb-pdczsnxc1goSLIDuZ2zc3Vpd4Q"
+        const supabaseConfig = createClient(projectURL , projectAPI)
+      
+        console.log('Supabase Instance: ', supabaseConfig)
+        
+      </script> -->
