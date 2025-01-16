@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login & Auth supabase</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+  </head>
+  <body>
+    <script>
+      async function loginUser(email, password) {
+        const { data, error } = await supabaseConfig.auth.signInWithPassword({
+          email: email,
+          password: password,
+        });
+
+        if (error) {
+          console.error("Error logging in:", error);
+        } else {
+          console.log("User logged in:", data);
+        }
+      }
+
+      // Usage
+      loginUser("test@example.com", "securePassword");
+    </script>
+  </body>
+</html>
