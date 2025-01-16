@@ -3,28 +3,83 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login & Auth supabase</title>
+    <title>Supabase Login</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f9f9f9;
+      }
+      .login-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      button {
+        padding: 10px 15px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    </style>
   </head>
   <body>
+    <div class="login-container">
+      <h2>Login</h2>
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button onclick="loginUser()">Login</button>
+      <p id="message"></p>
+    </div>
+
     <script>
-      async function loginUser(email, password) {
+      // Step 1: Initialize Supabase client
+      const { createClient } = supabase;
+      const projectURL = "https://hoshrjqhprcbafwmlcsu.supabase.co";
+      const projectAPIKey =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhvc2hyanFocHJjYmFmd21sY3N1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzcwMjQ2NzcsImV4cCI6MjA1MjYwMDY3N30.8DJZtMAo9xz0zF4wf5rS_-K-yId3BPs9Da1BzXhJlH4";
+      const supabaseConfig = createClient(projectURL, projectAPIKey);
+
+      // Step 2: Function to handle login
+      async function loginUser() {
+        // Get email and password from the input fields
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const message = document.getElementById("message");
+
+        // Step 3: Call Supabase's signInWithPassword method
         const { data, error } = await supabaseConfig.auth.signInWithPassword({
           email: email,
           password: password,
         });
 
+        // Step 4: Handle response
         if (error) {
-          console.error("Error logging in:", error);
+          console.error("Login error:", error);
+          message.textContent = "Login failed: " + error.message;
+          message.style.color = "red";
         } else {
-          console.log("User logged in:", data);
+          console.log("Login successful:", data);
+          message.textContent = "Login successful! Welcome.";
+          message.style.color = "green";
         }
       }
-
-      // Usage
-      loginUser("test@example.com", "securePassword");
     </script>
+
+    <!-- <script type="module" src="app.js"></script> -->
   </body>
 </html>
